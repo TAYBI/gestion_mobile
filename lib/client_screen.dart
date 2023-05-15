@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class DataSearch extends SearchDelegate<String> {
+  List<String> _data = ['Name 1', 'Name 2'];
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -25,14 +27,36 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: Implement search results
-    throw UnimplementedError();
+    final results = _data.where((data) => data.contains(query)).toList();
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(results[index]),
+          onTap: () {
+            close(context, results[index]);
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: Implement search suggestions
-    throw UnimplementedError();
+    final suggestionList =
+        _data.where((data) => data.startsWith(query)).toList();
+    return ListView.builder(
+      itemCount: suggestionList.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(suggestionList[index]),
+          onTap: () {
+            query = suggestionList[index];
+            showResults(context);
+          },
+        );
+      },
+    );
   }
 }
 
