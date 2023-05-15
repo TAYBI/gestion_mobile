@@ -53,6 +53,28 @@ class ClientInfoScreen extends StatelessWidget {
           _buildListItem(Icons.family_restroom, 'Family', '3'),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.grey,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: 'Info',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.photo),
+            label: 'Photo',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code),
+            label: 'QR Code',
+          ),
+        ],
+      ),
     );
   }
 }
