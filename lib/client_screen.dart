@@ -69,10 +69,10 @@ class ClientInfoScreen extends StatelessWidget {
             icon: Icon(Icons.map),
             label: 'Map',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code),
-            label: 'QR Code',
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.qr_code),
+          //   label: 'QR Code',
+          // ),
         ],
       ),
     );

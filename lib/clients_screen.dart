@@ -66,7 +66,7 @@ class ClientScreen extends StatelessWidget {
   const ClientScreen({Key? key}) : super(key: key);
 
   final avatar =
-      'https://static.vecteezy.com/ti/gratis-vector/p3/7319933-black-avatar-person-icons-user-profile-icon-vector.jpg';
+      'https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg';
 
   @override
   Widget build(BuildContext context) {
