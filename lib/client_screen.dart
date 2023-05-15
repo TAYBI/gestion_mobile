@@ -1,113 +1,58 @@
 import 'package:flutter/material.dart';
+import 'edit_client_screen.dart';
 
-class DataSearch extends SearchDelegate<String> {
-  List<String> _data = ['Name 1', 'Name 2'];
+class ClientInfoScreen extends StatelessWidget {
+  const ClientInfoScreen({Key? key}) : super(key: key);
 
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, '');
-      },
+  Widget _buildListItem(IconData icon, String title, String subtitle) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title),
+      subtitle: Text(subtitle),
     );
   }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    final results = _data.where((data) => data.contains(query)).toList();
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(results[index]),
-          onTap: () {
-            close(context, results[index]);
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final suggestionList =
-        _data.where((data) => data.startsWith(query)).toList();
-    return ListView.builder(
-      itemCount: suggestionList.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(suggestionList[index]),
-          onTap: () {
-            query = suggestionList[index];
-            showResults(context);
-          },
-        );
-      },
-    );
-  }
-}
-
-class ClientScreen extends StatelessWidget {
-  const ClientScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Clients'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: DataSearch());
-              },
-            ),
-          ],
-          centerTitle: true,
-        ),
-        body: ListView(
-          children: <Widget>[
-            Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage('https://example.com/avatar1.jpg'),
+      appBar: AppBar(
+        title: Text('Client'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.edit),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditClient(),
                 ),
-                title: Text('Mr. Name 1'),
-                subtitle: Text('Payment: \$0.00\n\$0.00'),
-                onTap: () {
-                  // Handle card tap
-                },
-              ),
-            ),
-            Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage('https://example.com/avatar2.jpg'),
-                ),
-                title: Text('Mr. Name 2'),
-                subtitle: Text('Payment: \$0.00\n\$0.00'),
-                onTap: () {
-                  // Handle card tap
-                },
-              ),
-            ),
-            // more cards if needed
-          ],
-        ));
+              );
+            },
+          ),
+        ],
+        centerTitle: true,
+      ),
+      body: ListView(
+        children: [
+          _buildListItem(Icons.business, 'Company Name', 'Acme Inc.'),
+          _buildListItem(Icons.person, 'Name', 'Name 1'),
+          _buildListItem(Icons.location_on, 'Address', '123 Main St'),
+          _buildListItem(Icons.location_city, 'City', 'Anytown'),
+          _buildListItem(Icons.phone, 'Telephone', '(123) 456-7890'),
+          _buildListItem(Icons.phone_android, 'Mobile', '(234) 567-8901'),
+          _buildListItem(Icons.print, 'Fax', '(345) 678-9012'),
+          _buildListItem(Icons.email, 'Email', 'johndoe@example.com'),
+          _buildListItem(Icons.format_list_numbered, 'CRN', '123456'),
+          _buildListItem(Icons.credit_card, 'Tax ID', '123-45-6789'),
+          _buildListItem(Icons.credit_card_outlined, 'Tax ID2', '987-65-4321'),
+          _buildListItem(
+              Icons.monetization_on, 'Starting Balance', '\$1000.00'),
+          _buildListItem(Icons.trending_up, 'Turnover', '\$5000.00'),
+          _buildListItem(Icons.payment, 'Payment', '\$500.00'),
+          _buildListItem(Icons.credit_card, 'Credit', '\$200.00'),
+          _buildListItem(Icons.family_restroom, 'Family', '3'),
+        ],
+      ),
+    );
   }
 }
