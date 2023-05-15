@@ -1,8 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'client_screen.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MaterialApp(
+    title: 'Navigation Basics',
+    home: MyApp(),
+  ));
+}
 
 extension StringExtension on String {
   String capitalize() {
@@ -149,7 +155,16 @@ class MyApp extends StatelessWidget {
                     12,
                     (index) => GestureDetector(
                       onTap: () {
-                        print('Pressed Card ${index + 1}');
+                        if (index == 2) {
+                          // check if the icon with index 3 is clicked
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) =>
+                                  ClientScreen(), // replace AnotherScreen with the name of your screen
+                            ),
+                          );
+                        }
                       },
                       child: Card(
                         color: _colors[index],
