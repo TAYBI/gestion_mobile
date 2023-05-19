@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:flutter/material.dart';
 import 'clients_screen.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,9 +17,14 @@ extension StringExtension on String {
   }
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({Key? key}) : super(key: key);
 
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final List<IconData> _icons = [
     Icons.dashboard,
     Icons.shopping_basket,
@@ -65,7 +70,16 @@ class MyApp extends StatelessWidget {
     'Reports',
   ];
 
-// assign the value to a non-constant variable
+  List<String> dropdownItems = [
+    "Devi",
+    "Commande Client",
+    "Bon de livraison",
+    "Retour client",
+    "Facture de vente",
+    "Avoir client",
+  ];
+
+  String dropdownValue = "Devi"; // assign the value to a non-constant variable
 
   @override
   Widget build(BuildContext context) {
@@ -80,8 +94,209 @@ class MyApp extends StatelessWidget {
           ),
           centerTitle: true,
         ),
-        drawer: const Drawer(
-          child: Text('Drawer................!!'),
+        drawer: Drawer(
+          child: Container(
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                UserAccountsDrawerHeader(
+                  accountName: Text("John Doe"),
+                  accountEmail: Text("johndoe@example.com"),
+                  currentAccountPicture: CircleAvatar(
+                    child: Text("JD"),
+                  ),
+                ),
+                ListTile(
+                  leading: Icon(Icons.home),
+                  title: Text("Accueil"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.dashboard),
+                  title: Text("Tableau de board"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.article),
+                  title: Text("Article"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ExpansionTile(
+                  leading: Icon(Icons.shopping_cart),
+                  title: Text("Vents"),
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.list_alt),
+                        title: Text("Devi"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.shopping_bag),
+                        title: Text("Commande Client"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.local_shipping),
+                        title: Text("Bon de livraison"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.reply),
+                        title: Text("Retour client"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.receipt),
+                        title: Text("Facture de vente"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.receipt_long),
+                        title: Text("Avoir client"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                ExpansionTile(
+                  leading: Icon(Icons.shopping_bag),
+                  title: Text("Achats"),
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.playlist_add),
+                        title: Text("Bon de commande"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.local_shipping),
+                        title: Text("Bon de reception"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.reply),
+                        title: Text("Retour fournisseur"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.receipt),
+                        title: Text("Facture d'achat"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 40),
+                      child: ListTile(
+                        leading: Icon(Icons.receipt_long),
+                        title: Text("Avoir fournisseur"),
+                        onTap: () {
+                          // handle onTap
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                ListTile(
+                  leading: Icon(Icons.people),
+                  title: Text("Clients"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.business),
+                  title: Text("Fournisseurs"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.attach_money),
+                  title: Text("Tresorerie"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.table_chart),
+                  title: Text("Tables"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.receipt),
+                  title: Text("Rapports"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+                ListTile(
+                  leading: Icon(
+                    Icons.logout,
+                    color: Colors.red,
+                  ),
+                  title: Text("Quitter"),
+                  onTap: () {
+                    // handle onTap
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
         body: Column(
           children: [
