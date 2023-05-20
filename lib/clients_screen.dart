@@ -80,41 +80,371 @@ class ClientScreen extends StatelessWidget {
               showSearch(context: context, delegate: DataSearch());
             },
           ),
+          IconButton(
+            icon: Icon(Icons.filter_alt),
+            onPressed: () {},
+          ),
         ],
         centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[
           Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(avatar),
-              ),
-              title: Text('Mr. Name 1'),
-              subtitle: Text('Payment: \$0.00\n\$0.00'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ClientInfoScreen(),
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: ExpansionTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(avatar),
+                ),
+                title: Text(
+                  'Mr. Name 1',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                subtitle: Text('Payment: \$0.00\n\$0.00'),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Mobile:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text('2355-59854-54',
+                                    style: TextStyle(fontSize: 12)),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  "Chiffre d'affaire:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text('0.00\$', style: TextStyle(fontSize: 12)),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  'Adresse:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  '123 Main St Anytown,',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.visibility),
+                        onPressed: () {
+                          // Handle icon tap
+                        },
+                      ),
+                    ),
                   ),
-                );
-              },
-            ),
-          ),
-          Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(avatar),
+                ],
               ),
-              title: Text('Mr. Name 2'),
-              subtitle: Text('Payment: \$0.00\n\$0.00'),
-              onTap: () {
-                // Handle card tap
-              },
             ),
           ),
-          // more cards if needed
+
+          Card(
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: ExpansionTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(avatar),
+                ),
+                title: Text(
+                  'Mr. Name 1',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                subtitle: Text('Payment: \$0.00\n\$0.00'),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Mobile:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text('2355-59854-54',
+                                    style: TextStyle(fontSize: 12)),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  "Chiffre d'affaire:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text('0.00\$', style: TextStyle(fontSize: 12)),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  'Adresse:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  '123 Main St Anytown,',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.visibility),
+                        onPressed: () {
+                          // Handle icon tap
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          Card(
+            elevation: 1,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+              child: ExpansionTile(
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(avatar),
+                ),
+                title: Text(
+                  'Mr. Name 1',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+                subtitle: Text('Payment: \$0.00\n\$0.00'),
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 8),
+                    child: ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  'Mobile:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text('2355-59854-54',
+                                    style: TextStyle(fontSize: 12)),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  "Chiffre d'affaire:",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text('0.00\$', style: TextStyle(fontSize: 12)),
+                              ],
+                            ),
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Text(
+                                  'Adresse:',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12),
+                                ),
+                                SizedBox(width: 8),
+                                Text(
+                                  '123 Main St Anytown,',
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.visibility),
+                        onPressed: () {
+                          // Handle icon tap
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ClientInfoScreen()),
+              );
+            },
+            child: Card(
+              elevation: 1,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: ExpansionTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(avatar),
+                  ),
+                  title: Text(
+                    'Mr. Name 1',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  ),
+                  subtitle: Text('Payment: \$0.00\n\$0.00'),
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 8),
+                      child: ListTile(
+                        title: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    'Mobile:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text('2355-59854-54',
+                                      style: TextStyle(fontSize: 12)),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text(
+                                    "Chiffre d'affaire:",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text('0.00\$',
+                                      style: TextStyle(fontSize: 12)),
+                                ],
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Adresse:',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 12),
+                                  ),
+                                  SizedBox(width: 8),
+                                  Text(
+                                    '123 Main St Anytown,',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        trailing: GestureDetector(
+                          onTap: () {
+                            // setState(() {
+                            //   isExpanded = !isExpanded;
+                            // });
+                          },
+                          child: Icon(Icons.visibility),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          // ExpansionTile(
+          //   leading: CircleAvatar(
+          //     backgroundImage: NetworkImage(avatar),
+          //   ),
+          //   title: Text(
+          //     'Mr. Name 2',
+          //     style: TextStyle(fontWeight: FontWeight.bold),
+          //   ),
+          //   subtitle: Text('Payment: \$0.00\n\$0.00'),
+          //   children: [
+          //     // Add more child widgets as needed
+          //   ],
+          // ),
+          // more ExpansionTiles if needed
         ],
       ),
       floatingActionButton: FloatingActionButton(
