@@ -1,36 +1,15 @@
-import 'package:http/io_client.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
-void request() async {
-  var httpClient = new HttpClient();
-  var ioClient = new IOClient(httpClient);
-  var url = Uri.parse(
+final dio = Dio();
+
+void getHttp() async {
+  final response = await dio.get(
       'http://178.238.238.52:8084/OmagAPI/controllers/client/lire.php?myDB=omag_67_DEMO');
-  var request = new http.Request('GET', url);
-  request.headers.addAll({'Content-Type': 'application/json'});
-  var response = await ioClient.send(request);
-
-  if (response.statusCode == 200) {
-    // Parse the Content-Type header
-    var contentType = MediaType.parse(response.headers['content-type'] ?? '');
-
-    // Check if the media type is correct
-    if (contentType.mimeType == 'application/json') {
-      // Request was successful, handle the response
-      var responseBody = await response.stream.bytesToString();
-      // ...
-    } else {
-      // Invalid media type, handle the error
-      print('Invalid media type: ${contentType.mimeType}');
-    }
-  } else {
-    // Request failed, handle the error
-    print('Request failed with status: ${response.statusCode}');
-  }
+  print(response);
 }
 
 void main() {
-  request();
+  getHttp();
 }
 
 
