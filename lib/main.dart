@@ -393,7 +393,7 @@ class _MyAppState extends State<MyApp> {
                             context,
                             MaterialPageRoute(
                               builder: (_) =>
-                                  ClientScreen(), // replace AnotherScreen with the name of your screen
+                                  ClientsScreen(), // replace AnotherScreen with the name of your screen
                             ),
                           );
                         }
