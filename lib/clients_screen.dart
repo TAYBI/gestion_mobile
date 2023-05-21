@@ -84,8 +84,11 @@ class ClientScreen extends StatelessWidget {
             icon: Icon(Icons.filter_alt),
             onPressed: () {},
           ),
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () {},
+          ),
         ],
-        centerTitle: true,
       ),
       body: ListView(
         children: <Widget>[

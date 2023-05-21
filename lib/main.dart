@@ -99,12 +99,29 @@ class _MyAppState extends State<MyApp> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
+                // IconButton(
+                //   icon: Icon(Icons.settings),
+                //   onPressed: () {
+                //     // handle icon button tap
+                //   },
+                // ),
                 UserAccountsDrawerHeader(
                   accountName: Text("John Doe"),
                   accountEmail: Text("johndoe@example.com"),
                   currentAccountPicture: CircleAvatar(
                     child: Text("JD"),
                   ),
+                  otherAccountsPictures: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.settings,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        // handle icon button tap
+                      },
+                    ),
+                  ],
                 ),
                 ListTile(
                   leading: Icon(Icons.home),
