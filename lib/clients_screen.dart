@@ -1,95 +1,167 @@
-import 'package:flutter/material.dart';
+import 'package:http/io_client.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-// import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'edit_client_screen.dart';
+
+void request() async {
+  var httpClient = new HttpClient();
+  var ioClient = new IOClient(httpClient);
+  var url = Uri.parse(
+      'http://178.238.238.52:8084/OmagAPI/controllers/client/lire.php?myDB=omag_67_DEMO');
+  var request = new http.Request('GET', url);
+  request.headers.addAll({'Content-Type': 'application/json'});
+  var response = await ioClient.send(request);
+
+  if (response.statusCode == 200) {
+    // Parse the Content-Type header
+    var contentType = MediaType.parse(response.headers['content-type'] ?? '');
+
+    // Check if the media type is correct
+    if (contentType.mimeType == 'application/json') {
+      // Request was successful, handle the response
+      var responseBody = await response.stream.bytesToString();
+      // ...
+    } else {
+      // Invalid media type, handle the error
+      print('Invalid media type: ${contentType.mimeType}');
+    }
+  } else {
+    // Request failed, handle the error
+    print('Request failed with status: ${response.statusCode}');
+  }
+}
+
+void main() {
+  request();
+}
+
+
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
 
-class ClientsScreen extends StatefulWidget {
-  @override
-  _ClientsScreenState createState() => _ClientsScreenState();
-}
+// void request() async {
+//   var url = Uri.parse(
+//       'http://178.238.238.52:8084/OmagAPI/controllers/client/lire.php?myDB=omag_67_DEMO');
+//   var response = await http.get(
+//     url,
+//     headers: {'Content-Type': 'application/json'},
+//   );
 
-class _ClientsScreenState extends State<ClientsScreen> {
-  late List<dynamic> _data;
-  bool _isLoading = true;
+//   if (response.statusCode == 200) {
+//     // Request was successful, handle the response
+//     var responseBody = json.decode(response.body);
+//     // ...
+//   } else {
+//     // Request failed, handle the error
+//     print('Request failed with status: ${response.statusCode}');
+//   }
+// }
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchData();
-  }
+// class ClientsScreen extends StatelessWidget {
+//   const ClientsScreen({super.key});
 
-  Future<void> _fetchData() async {
-    try {
-      final response = await http.get(Uri.parse(
-          'http://178.238.238.52:8084/OmagAPI/controllers/client/lire.php?myDB=omag_67_DEMO'));
-      if (response.statusCode == 200) {
-        // setState(() {
-        _data = jsonDecode(response.body);
-        //   _isLoading = false;
-        // });
-      } else {
-        throw Exception('Failed to load data');
-      }
-    } catch (error) {
-      throw Exception('Failed to load data');
-    }
-  }
+//   @override
+//   Widget build(BuildContext context) {
+//     request();
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Clients'),
-      ),
-      body:
-          // _isLoading
-          //     ? Center(child: CircularProgressIndicator())
-          ListView.builder(
-        itemCount: _data.length,
-        itemBuilder: (context, index) {
-          final item = _data[index];
-          return Card(
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditClient(),
-                  ),
-                );
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item['nom'],
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8.0),
-                    Text(
-                      item['tel'],
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+//     return MaterialApp(
+//       title: "Clients",
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text(
+//             'Clients',
+//           ),
+//           centerTitle: true,
+//         ),
+//       ),
+//     );
+//   }
+// }
 
+
+// --------------------------------------------------------------------------------
+// class ClientsScreen extends StatefulWidget {
+//   @override
+//   _ClientsScreenState createState() => _ClientsScreenState();
+// }
+
+// class _ClientsScreenState extends State<ClientsScreen> {
+//   late List<dynamic> _data;
+//   bool _isLoading = true;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     _fetchData();
+//   }
+
+//   Future<void> _fetchData() async {
+//     try {
+//       final response = await http.get(Uri.parse(
+//           'http://178.238.238.52:8084/OmagAPI/controllers/client/lire.php?myDB=omag_67_DEMO'));
+//       if (response.statusCode == 200) {
+//         // setState(() {
+//         _data = jsonDecode(response.body);
+//         //   _isLoading = false;
+//         // });
+//       } else {
+//         throw Exception('Failed to load data');
+//       }
+//     } catch (error) {
+//       throw Exception('Failed to load data');
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Clients'),
+//       ),
+//       body:
+//           // _isLoading
+//           //     ? Center(child: CircularProgressIndicator())
+//           ListView.builder(
+//         itemCount: _data.length,
+//         itemBuilder: (context, index) {
+//           final item = _data[index];
+//           return Card(
+//             child: InkWell(
+//               onTap: () {
+//                 Navigator.push(
+//                   context,
+//                   MaterialPageRoute(
+//                     builder: (context) => EditClient(),
+//                   ),
+//                 );
+//               },
+//               child: Padding(
+//                 padding: const EdgeInsets.all(16.0),
+//                 child: Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     Text(
+//                       item['nom'],
+//                       style: TextStyle(
+//                         fontSize: 18.0,
+//                         fontWeight: FontWeight.bold,
+//                       ),
+//                     ),
+//                     SizedBox(height: 8.0),
+//                     Text(
+//                       item['tel'],
+//                       style: TextStyle(fontSize: 16.0),
+//                     ),
+//                   ],
+//                 ),
+//               ),
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
+// // -------------------------------------------------------------------
 
 
 

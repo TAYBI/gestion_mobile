@@ -389,13 +389,13 @@ class _MyAppState extends State<MyApp> {
                       onTap: () {
                         if (index == 2) {
                           // check if the icon with index 3 is clicked
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) =>
-                                  ClientsScreen(), // replace AnotherScreen with the name of your screen
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (_) =>
+                          //         ClientsScreen(), // replace AnotherScreen with the name of your screen
+                          //   ),
+                          // );
                         }
                       },
                       child: Card(
