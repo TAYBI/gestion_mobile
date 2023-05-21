@@ -95,7 +95,7 @@ class ClientScreen extends StatelessWidget {
           Card(
             elevation: 1,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(4),
             ),
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -178,7 +178,7 @@ class ClientScreen extends StatelessWidget {
           Card(
             elevation: 1,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(4),
             ),
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -261,7 +261,7 @@ class ClientScreen extends StatelessWidget {
           Card(
             elevation: 1,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(4),
             ),
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
@@ -351,7 +351,7 @@ class ClientScreen extends StatelessWidget {
             child: Card(
               elevation: 1,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(4),
               ),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
