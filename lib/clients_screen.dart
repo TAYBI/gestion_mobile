@@ -1,466 +1,302 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'client_screen.dart';
-import 'edit_client_screen.dart';
+import 'package:http/http.dart' as http;
+import 'ClientDetailsScreen.dart';
 
-class DataSearch extends SearchDelegate<String> {
-  List<String> _data = ['Name 1', 'Name 2'];
-
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
+class ClientScreen extends StatefulWidget {
+  const ClientScreen({super.key});
 
   @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, '');
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    final results = _data.where((data) => data.contains(query)).toList();
-    return ListView.builder(
-      itemCount: results.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(results[index]),
-          onTap: () {
-            close(context, results[index]);
-          },
-        );
-      },
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final suggestionList =
-        _data.where((data) => data.startsWith(query)).toList();
-    return ListView.builder(
-      itemCount: suggestionList.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(suggestionList[index]),
-          onTap: () {
-            query = suggestionList[index];
-            showResults(context);
-          },
-        );
-      },
-    );
-  }
+  State<ClientScreen> createState() => _ClientScreenState();
 }
 
-class ClientScreen extends StatelessWidget {
-  const ClientScreen({Key? key}) : super(key: key);
+class _ClientScreenState extends State<ClientScreen> {
+  List<dynamic> users = [];
+  List<dynamic> filteredUsers = [];
+  bool showSearchBar = false;
+  bool showScrollToTop = false;
+  bool isLoading = false; // add isLoading state
+  final scrollController = ScrollController();
 
-  final avatar =
-      'https://img.freepik.com/premium-vector/man-avatar-profile-picture-vector-illustration_268834-538.jpg';
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController.addListener(() {
+      final threshold = 200;
+      final currentPosition = scrollController.position.pixels;
+      setState(() {
+        showScrollToTop = currentPosition > threshold;
+      });
+    });
+
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Clients'),
-        actions: <Widget>[
+        title: showSearchBar
+            ? Visibility(
+                visible: true,
+                child: TextField(
+                  onChanged: (value) {
+                    filterUsers(value);
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search users',
+                    hintStyle: TextStyle(color: Colors.white),
+                  ),
+                ),
+              )
+            : Text('Clients'),
+        actions: [
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              showSearch(context: context, delegate: DataSearch());
+              setState(() {
+                showSearchBar = !showSearchBar;
+              });
             },
           ),
           IconButton(
             icon: Icon(Icons.filter_alt),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {},
-          ),
-        ],
-      ),
-      body: ListView(
-        children: <Widget>[
-          Card(
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: ExpansionTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(avatar),
-                ),
-                title: Text(
-                  'Mr. Name 1',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                subtitle: Text('Payment: \$0.00\n\$0.00'),
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Mobile:',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text('2355-59854-54',
-                                    style: TextStyle(fontSize: 12)),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  "Chiffre d'affaire:",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text('0.00\$', style: TextStyle(fontSize: 12)),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  'Adresse:',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  '123 Main St Anytown,',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.visibility),
-                        onPressed: () {
-                          // Handle icon tap
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          Card(
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: ExpansionTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(avatar),
-                ),
-                title: Text(
-                  'Mr. Name 1',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                subtitle: Text('Payment: \$0.00\n\$0.00'),
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Mobile:',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text('2355-59854-54',
-                                    style: TextStyle(fontSize: 12)),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  "Chiffre d'affaire:",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text('0.00\$', style: TextStyle(fontSize: 12)),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  'Adresse:',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  '123 Main St Anytown,',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.visibility),
-                        onPressed: () {
-                          // Handle icon tap
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          Card(
-            elevation: 1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: ExpansionTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(avatar),
-                ),
-                title: Text(
-                  'Mr. Name 1',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-                subtitle: Text('Payment: \$0.00\n\$0.00'),
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Mobile:',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text('2355-59854-54',
-                                    style: TextStyle(fontSize: 12)),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  "Chiffre d'affaire:",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text('0.00\$', style: TextStyle(fontSize: 12)),
-                              ],
-                            ),
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Text(
-                                  'Adresse:',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  '123 Main St Anytown,',
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      trailing: IconButton(
-                        icon: Icon(Icons.visibility),
-                        onPressed: () {
-                          // Handle icon tap
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ClientInfoScreen()),
-              );
+            onPressed: () {
+              _showFilterDialog(context); // show filter dialog on button press
             },
-            child: Card(
-              elevation: 1,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                child: ExpansionTile(
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(avatar),
-                  ),
-                  title: Text(
-                    'Mr. Name 1',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                  ),
-                  subtitle: Text('Payment: \$0.00\n\$0.00'),
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: ListTile(
-                        title: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    'Mobile:',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text('2355-59854-54',
-                                      style: TextStyle(fontSize: 12)),
-                                ],
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Chiffre d'affaire:",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text('0.00\$',
-                                      style: TextStyle(fontSize: 12)),
-                                ],
-                              ),
-                              SizedBox(height: 8),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Adresse:',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 12),
-                                  ),
-                                  SizedBox(width: 8),
-                                  Text(
-                                    '123 Main St Anytown,',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        trailing: GestureDetector(
-                          onTap: () {
-                            // setState(() {
-                            //   isExpanded = !isExpanded;
-                            // });
-                          },
-                          child: Icon(Icons.visibility),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           ),
-          // ExpansionTile(
-          //   leading: CircleAvatar(
-          //     backgroundImage: NetworkImage(avatar),
-          //   ),
-          //   title: Text(
-          //     'Mr. Name 2',
-          //     style: TextStyle(fontWeight: FontWeight.bold),
-          //   ),
-          //   subtitle: Text('Payment: \$0.00\n\$0.00'),
-          //   children: [
-          //     // Add more child widgets as needed
-          //   ],
-          // ),
-          // more ExpansionTiles if needed
+          PopupMenuButton(
+            icon: Icon(Icons.more_vert),
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: Text('Importer CSV'),
+                value: 'import',
+              ),
+              PopupMenuItem(
+                child: Text('Exporter CSV'),
+                value: 'export',
+              ),
+            ],
+            onSelected: (value) {
+              if (value == 'import') {
+                // handle import CSV option
+              } else if (value == 'export') {
+                // handle export CSV option
+              }
+            },
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => EditClient(),
+      body: Stack(
+        children: [
+          RefreshIndicator(
+            onRefresh: getData, // add onRefresh callback
+            child: ListView.builder(
+              controller: scrollController,
+              itemCount: filteredUsers.length,
+              itemBuilder: (context, index) {
+                final user = filteredUsers[index];
+                final name = user['name']['first'];
+                final email = user['email'];
+
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ClientDetailsScreen(user: user),
+                      ),
+                    );
+                  },
+                  child: Card(
+                    margin: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 6, horizontal: 5),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          child: Text('${index + 1}'),
+                        ),
+                        title: Text(name),
+                        subtitle: Text(email),
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
-        child: const Icon(Icons.add),
+          ),
+          if (showScrollToTop)
+            Positioned(
+              bottom: 16,
+              right: 16,
+              child: FloatingActionButton(
+                onPressed: () {
+                  scrollController.animateTo(
+                    0,
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
+                },
+                child: Icon(Icons.arrow_upward),
+              ),
+            ),
+          if (isLoading) // show circular progress indicator while loading
+            Center(
+              child: CircularProgressIndicator(),
+            ),
+        ],
       ),
     );
+  }
+
+// \\\\\\\\\\\\
+
+// \\\\\\\\\\\\\\\\\
+// \\\\\\\\\\\\\\\\\
+
+  void _showFilterDialog(BuildContext context) {
+    String? filterFamille = 'famille 1';
+    bool filterAvecCredit = false;
+    bool filterBloque = false;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(width: 200),
+              Expanded(
+                child: IconButton(
+                  icon: Icon(
+                    Icons.cancel,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+          contentPadding: EdgeInsets.only(top: 12),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 12, bottom: 4),
+                    child: Text('Famille:'),
+                  ),
+                  SizedBox(
+                    width: 200,
+                    child: DropdownButtonFormField<String>(
+                      value: filterFamille,
+                      onChanged: (value) {
+                        setState(() {
+                          filterFamille = value;
+                        });
+                      },
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                        border: OutlineInputBorder(),
+                      ),
+                      items: [
+                        DropdownMenuItem(
+                          value: 'famille 1',
+                          child: Text('Famille 1'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'famille 2',
+                          child: Text('Famille 2'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'famille 3',
+                          child: Text('Famille 3'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              CheckboxListTile(
+                value: filterAvecCredit,
+                onChanged: (value) {
+                  setState(() {
+                    filterAvecCredit = value!;
+                  });
+                },
+                title: Text('Avec crédit'),
+              ),
+              CheckboxListTile(
+                value: filterBloque,
+                onChanged: (value) {
+                  setState(() {
+                    filterBloque = value!;
+                  });
+                },
+                title: Text('Bloqué'),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                // handle filter submission
+                // filterUsers();
+                Navigator.pop(context);
+              },
+              child: Text('Apply'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.green,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// \\\\\\\\\\\\\\\\\
+// \\\\\\\\\\\\\\\\\
+
+  void filterUsers(String query) {
+    final lowercaseQuery = query.toLowerCase();
+    setState(() {
+      filteredUsers = users.where((user) {
+        final name = user['name']['first'].toLowerCase();
+        return name.contains(lowercaseQuery);
+      }).toList();
+    });
+  }
+
+  Future<void> getData() async {
+    setState(() {
+      isLoading = true; // set isLoading to true when refreshing
+    });
+
+    const url = 'https://randomuser.me/api/?results=50';
+    final uri = Uri.parse(url);
+    final response = await http.get(uri);
+    final body = response.body;
+    final json = jsonDecode(body);
+    setState(() {
+      users = json['results'];
+      filteredUsers = users;
+      isLoading = false; // set isLoading to false when done loading
+    });
   }
 }
