@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'edit_client_screen.dart';
 
-class ClientDetailsScreen extends StatelessWidget {
+class ClientDetailsScreen extends StatefulWidget {
   final dynamic user;
 
   ClientDetailsScreen({required this.user});
+
+  @override
+  _ClientDetailsScreenState createState() => _ClientDetailsScreenState();
+}
+
+class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
+  int _currentIndex = 0;
 
   Widget _buildListItem(IconData icon, String title, String subtitle) {
     return ListTile(
@@ -43,22 +50,23 @@ class ClientDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name =
-        '${user['name']['title']?.toString() ?? ''} ${user['name']['first']?.toString() ?? ''} ${user['name']['last']?.toString() ?? ''}';
+        '${widget.user['name']['title']?.toString() ?? ''} ${widget.user['name']['first']?.toString() ?? ''} ${widget.user['name']['last']?.toString() ?? ''}';
     final address =
-        '${user['location']['street']['name']?.toString() ?? ''} ${user['location']['street']['301']?.toString() ?? ''}';
-    final city = user['location']['city']?.toString() ?? '';
-    final mobile = user['phone']?.toString() ?? '';
-    final fax = user['cell']?.toString() ?? '';
-    final email = user['email']?.toString() ?? '';
-    final crn = user['id']['value']?.toString() ?? '';
-    final taxId1 = user['id']['name']?.toString() ?? '';
-    final taxId2 = user['login']['sha256']?.toString() ?? '';
-    final startingBalance = user['registered']['date']?.toString() ?? '';
-    final turnover = user['dob']['date']?.toString() ?? '';
-    final payment = user['registered']['age']?.toString() ?? '';
-    final credit = user['login']['password']?.toString() ?? '';
-    final family = user['dob']['age']?.toString() ?? '';
-    final tariff = user['nat']?.toString() ?? '';
+        '${widget.user['location']['street']['name']?.toString() ?? ''} ${widget.user['location']['street']['301']?.toString() ?? ''}';
+    final city = widget.user['location']['city']?.toString() ?? '';
+    final mobile = widget.user['phone']?.toString() ?? '';
+    final fax = widget.user['cell']?.toString() ?? '';
+    final email = widget.user['email']?.toString() ?? '';
+    final crn = widget.user['id']['value']?.toString() ?? '';
+    final taxId1 = widget.user['id']['name']?.toString() ?? '';
+    final taxId2 = widget.user['login']['sha256']?.toString() ?? '';
+    final startingBalance = widget.user['registered']['date']?.toString() ?? '';
+    final turnover = widget.user['dob']['date']?.toString() ?? '';
+    final payment = widget.user['registered']['age']?.toString() ?? '';
+    final credit = widget.user['login']['password']?.toString() ?? '';
+    final family = widget.user['dob']['age']?.toString() ?? '';
+    final tariff = widget.user['nat']?.toString() ?? '';
+    final pictureUrl = widget.user['picture']['medium']?.toString() ?? '';
 
     List<Widget> data = [
       _buildListItem(Icons.person, 'Nom', name),
@@ -98,15 +106,34 @@ class ClientDetailsScreen extends StatelessWidget {
         ],
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: data.length,
-        itemBuilder: (BuildContext context, int index) {
-          return data[index];
-        },
+      body: IndexedStack(
+        index: _currentIndex,
+        children: [
+          ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (BuildContext context, int index) {
+              return data[index];
+            },
+          ),
+          Center(
+            child: CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage(pictureUrl),
+            ),
+          ),
+          Center(child: Text('Map')),
+          // Add your content for the other pages here
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
+        currentIndex: _currentIndex,
+        onTap: (int index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
@@ -120,12 +147,9 @@ class ClientDetailsScreen extends StatelessWidget {
             icon: Icon(Icons.map),
             label: 'Map',
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.qr_code),
-          //   label: 'QR Code',
-          // ),
         ],
       ),
     );
   }
 }
+// // 
