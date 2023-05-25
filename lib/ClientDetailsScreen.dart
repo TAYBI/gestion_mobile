@@ -8,10 +8,33 @@ class ClientDetailsScreen extends StatelessWidget {
 
   Widget _buildListItem(IconData icon, String title, String subtitle) {
     return ListTile(
-      leading: Icon(icon),
+      leading: Icon(
+        icon,
+        color: Colors.blue,
+      ),
       title: Text(
         title,
-        style: TextStyle(fontSize: 14),
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.blue,
+        ),
+      ),
+      subtitle: Text(subtitle),
+    );
+  }
+
+  Widget _buildListItem2(IconData icon, String title, String subtitle) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: Colors.blue,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontSize: 11,
+          color: Colors.blue,
+        ),
       ),
       subtitle: Text(subtitle),
     );
@@ -20,8 +43,9 @@ class ClientDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final name =
-        '${user['name']['first']?.toString() ?? ''} ${user['name']['last']?.toString() ?? ''}';
-    final address = user['location']['street']['name']?.toString() ?? '';
+        '${user['name']['title']?.toString() ?? ''} ${user['name']['first']?.toString() ?? ''} ${user['name']['last']?.toString() ?? ''}';
+    final address =
+        '${user['location']['street']['name']?.toString() ?? ''} ${user['location']['street']['301']?.toString() ?? ''}';
     final city = user['location']['city']?.toString() ?? '';
     final mobile = user['phone']?.toString() ?? '';
     final fax = user['cell']?.toString() ?? '';
@@ -37,21 +61,22 @@ class ClientDetailsScreen extends StatelessWidget {
     final tariff = user['nat']?.toString() ?? '';
 
     List<Widget> data = [
-      _buildListItem(Icons.person, 'Name', name),
+      _buildListItem(Icons.person, 'Nom', name),
       _buildListItem(Icons.location_on, 'Address', address),
-      _buildListItem(Icons.location_city, 'City', city),
+      _buildListItem(Icons.location_city, 'Ville', city),
       _buildListItem(Icons.phone, 'Telephone', '(123) 456-7890'),
       _buildListItem(Icons.phone_android, 'Mobile', mobile),
       _buildListItem(Icons.print, 'Fax', fax),
-      _buildListItem(Icons.email, 'Email', email),
-      _buildListItem(Icons.format_list_numbered, 'CRN', crn),
-      _buildListItem(Icons.credit_card, 'Tax ID', taxId1),
-      _buildListItem(Icons.credit_card_outlined, 'Tax ID2', taxId2),
-      _buildListItem(
-          Icons.monetization_on, 'Starting Balance', startingBalance),
-      _buildListItem(Icons.trending_up, 'Turnover', turnover),
-      _buildListItem(Icons.payment, 'Payment', payment),
-      _buildListItem(Icons.credit_card, 'Credit', credit),
+      _buildListItem(Icons.email, 'E.mail', email),
+      _buildListItem(Icons.credit_card_outlined, 'N°RC', crn),
+      _buildListItem(Icons.credit_card_outlined, 'NTVA/NIF', taxId1),
+      _buildListItem(Icons.credit_card_outlined, 'NIS', taxId2),
+      _buildListItem2(
+          Icons.monetization_on_sharp, 'Solde de depart', startingBalance),
+      _buildListItem2(
+          Icons.monetization_on_sharp, 'Chiffre d\'affaire', turnover),
+      _buildListItem2(Icons.monetization_on_sharp, 'Regle', payment),
+      _buildListItem2(Icons.wallet, 'Credit', credit),
       _buildListItem(Icons.family_restroom, 'Family', family),
     ];
 
@@ -103,157 +128,4 @@ class ClientDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   final name = '${user['name']['first']} ${user['name']['last']}';
-  //   final pictureUrl = user['picture']['large'];
-  //   final email = user['email'];
-  //   final phone = user['phone'];
-  //   final location =
-  //       '${user['location']['city']}, ${user['location']['country']}';
-
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('User Details'),
-  //     ),
-  //     body: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.stretch,
-  //       children: [
-  //         Expanded(
-  //           child: Container(
-  //             color: Colors.grey[200],
-  //             padding: EdgeInsets.all(16),
-  //             child: SingleChildScrollView(
-  //               child: Column(
-  //                 crossAxisAlignment: CrossAxisAlignment.stretch,
-  //                 children: [
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.business),
-  //                       SizedBox(width: 8),
-  //                       Text('Raison social'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.location_on),
-  //                       SizedBox(width: 8),
-  //                       Text('Adresse'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.location_city),
-  //                       SizedBox(width: 8),
-  //                       Text('Ville'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.phone),
-  //                       SizedBox(width: 8),
-  //                       Text('Mobile'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.print),
-  //                       SizedBox(width: 8),
-  //                       Text('Fax'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.mail),
-  //                       SizedBox(width: 8),
-  //                       Text('Email'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.format_list_numbered),
-  //                       SizedBox(width: 8),
-  //                       Text('N RC'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.format_list_numbered),
-  //                       SizedBox(width: 8),
-  //                       Text('NTVA/NIF'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.format_list_numbered),
-  //                       SizedBox(width: 8),
-  //                       Text('NIS'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.monetization_on),
-  //                       SizedBox(width: 8),
-  //                       Text('Solde de depart'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.bar_chart),
-  //                       SizedBox(width: 8),
-  //                       Text('Chiffre d\'affaire'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.payment),
-  //                       SizedBox(width: 8),
-  //                       Text('Regele'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.credit_card),
-  //                       SizedBox(width: 8),
-  //                       Text('Credit'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.family_restroom),
-  //                       SizedBox(width: 8),
-  //                       Text('Famille'),
-  //                     ],
-  //                   ),
-  //                   SizedBox(height: 8),
-  //                   Row(
-  //                     children: [
-  //                       Icon(Icons.money),
-  //                       SizedBox(width: 8),
-  //                       Text('Tarif'),
-  //                     ],
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
