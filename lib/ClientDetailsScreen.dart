@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'edit_client_screen.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:latlng/latlng.dart';
 
 class ClientDetailsScreen extends StatefulWidget {
   final dynamic user;
@@ -65,8 +68,12 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
     final payment = widget.user['registered']['age']?.toString() ?? '';
     final credit = widget.user['login']['password']?.toString() ?? '';
     final family = widget.user['dob']['age']?.toString() ?? '';
-    final tariff = widget.user['nat']?.toString() ?? '';
+    // final tariff = widget.user['nat']?.toString() ?? '';
+
     final pictureUrl = widget.user['picture']['large']?.toString() ?? '';
+
+    final latitude = widget.user['coordinates']['latitude']?.toString() ?? '';
+    final longitude = widget.user['coordinates']['longitude']?.toString() ?? '';
 
     List<Widget> data = [
       _buildListItem(Icons.person, 'Nom', name),
@@ -133,10 +140,10 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                       color: Colors.green,
                       padding: EdgeInsets.all(10),
                       onPressed: () {
-                        // Take new picture using selfie camera
+                        // TODO: Take new picture using selfie camera
                       },
                       child: Icon(
-                        Icons.mode_edit,
+                        Icons.camera_alt,
                         size: 20,
                         color: Colors.white,
                       ),
@@ -146,8 +153,24 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
               ),
             ),
           ),
+          Center(
+            child: FlutterMap(
+              options: MapOptions(
+                center: LatLng(latitude, longitude),
+                zoom: 13.0,
+              ),
+              children: [
+                TileLayer(
+                  options: TileLayerOptions(
+                    urlTemplate:
+                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                ),
+              ],
+            ),
+          ),
 
-          Center(child: Text('Map')),
           // Add your content for the other pages here
         ],
       ),
