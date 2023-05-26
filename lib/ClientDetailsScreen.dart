@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'edit_client_screen.dart';
-import 'package:flutter_map/flutter_map.dart';
+// import 'package:flutter_map/flutter_map.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ClientDetailsScreen extends StatefulWidget {
   final dynamic user;
@@ -70,8 +71,10 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
 
     final pictureUrl = widget.user['picture']['large']?.toString() ?? '';
 
-    // final latitude = widget.user['coordinates']['latitude']?.toString() ?? '';
-    // final longitude = widget.user['coordinates']['longitude']?.toString() ?? '';
+    final latitude =
+        widget.user['location']['coordinates']['latitude']?.toString() ?? '';
+    final longitude =
+        widget.user['location']['coordinates']['longitude']?.toString() ?? '';
 
     List<Widget> data = [
       _buildListItem(Icons.person, 'Nom', name),
@@ -92,8 +95,6 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
       _buildListItem2(Icons.wallet, 'Credit', credit),
       _buildListItem(Icons.family_restroom, 'Family', family),
     ];
-
-    bool _showEditButtons = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -152,7 +153,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
             ),
           ),
 
-          Center(child: Text('Map')),
+          Center(child: Text('Cordonnees: ${latitude}, ${longitude}')),
           // Add your content for the other pages here
         ],
       ),
