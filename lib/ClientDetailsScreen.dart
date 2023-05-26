@@ -66,7 +66,7 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
     final credit = widget.user['login']['password']?.toString() ?? '';
     final family = widget.user['dob']['age']?.toString() ?? '';
     final tariff = widget.user['nat']?.toString() ?? '';
-    final pictureUrl = widget.user['picture']['medium']?.toString() ?? '';
+    final pictureUrl = widget.user['picture']['large']?.toString() ?? '';
 
     List<Widget> data = [
       _buildListItem(Icons.person, 'Nom', name),
@@ -87,6 +87,8 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
       _buildListItem2(Icons.wallet, 'Credit', credit),
       _buildListItem(Icons.family_restroom, 'Family', family),
     ];
+
+    bool _showEditButtons = false;
 
     return Scaffold(
       appBar: AppBar(
@@ -115,12 +117,36 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
               return data[index];
             },
           ),
+
           Center(
             child: CircleAvatar(
-              radius: 50,
+              radius: 100,
               backgroundImage: NetworkImage(pictureUrl),
+              backgroundColor: Colors.transparent,
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: <Widget>[
+                  Positioned(
+                    right: -8,
+                    child: MaterialButton(
+                      shape: CircleBorder(),
+                      color: Colors.green,
+                      padding: EdgeInsets.all(10),
+                      onPressed: () {
+                        // Take new picture using selfie camera
+                      },
+                      child: Icon(
+                        Icons.mode_edit,
+                        size: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+
           Center(child: Text('Map')),
           // Add your content for the other pages here
         ],
