@@ -1,7 +1,11 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.example.app">
+    <uses-sdk android:minSdkVersion="16" />
     <application
         android:label="gestion_mobile"
         android:name="${applicationName}"
+        tools:overrideLibrary="io.flutter.plugins.camera"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

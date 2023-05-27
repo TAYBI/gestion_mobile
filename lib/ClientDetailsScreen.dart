@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'edit_client_screen.dart';
+import 'CameraScreen.dart';
 // import 'package:flutter_map/flutter_map.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -139,7 +140,12 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
                       color: Colors.green,
                       padding: EdgeInsets.all(10),
                       onPressed: () {
-                        // TODO: Take new picture using selfie camera
+                        print('Clicked');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CameraScreen()),
+                        );
                       },
                       child: Icon(
                         Icons.camera_alt,
