@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'edit_client_screen.dart';
 import 'CameraScreen.dart';
 import 'package:camera/camera.dart';
-import 'package:flutter/material.dart';
-
-// import 'package:flutter_map/flutter_map.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'MapScreen.dart';
 
 class ClientDetailsScreen extends StatefulWidget {
   final dynamic user;
@@ -165,7 +162,13 @@ class _ClientDetailsScreenState extends State<ClientDetailsScreen> {
             ),
           ),
 
-          Center(child: Text('Cordonnees: ${latitude}, ${longitude}')),
+          Center(
+            child: MapScreen(
+              latitude: double.parse(latitude),
+              longitude: double.parse(longitude),
+            ),
+            // Text('Cordonnees: ${latitude}, ${longitude}'),
+          ),
           // Add your content for the other pages here
         ],
       ),
